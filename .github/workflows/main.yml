@@ -1,0 +1,19 @@
+name: Staging
+on:
+  workflow_dispatch:
+  
+jobs:
+  sync-branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🔗 Checkout source code from github
+        uses: actions/checkout@v3
+
+      - name: ⤵️ Merge alpha to beta (staging)
+        uses: devmasx/merge-branch@master
+        with:
+          type: now
+          from_branch: alpha
+          target_branch: beta
+          github_token: ${{ github.token }}
+          label_name: staging
