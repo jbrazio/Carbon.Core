@@ -37,3 +37,9 @@ jobs:
       run: |
         %GITHUB_WORKSPACE%\Tools\Build\win\dev_init.bat
         %GITHUB_WORKSPACE%\Tools\Build\win\dev_release.bat
+
+    - name: ⬆️ Upload the artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: artifact-build-${{ matrix.os }}-${{ github.run_id }}
+        path: Release/
