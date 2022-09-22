@@ -17,9 +17,8 @@ on:
     # but we do work late.. :-)
 
 jobs:
-  nightly:
-    name: 🌙 Update the nightly release tag
-  
+  build:
+    name: 🦺 Build the artifacts 
     runs-on: ubuntu-latest
       
     steps:    
@@ -46,8 +45,8 @@ jobs:
       with:
         path: |
           Rust/RustDedicated_Data
+          Tools/NStrip/NStrip/bin
           Tools/DepotDownloader/DepotDownloader/bin
-          Tools/DepotDownloader/NStrip/bin
         key: stuff
 
     - if: steps.cache-stuff.outputs.cache-hit != 'true'
@@ -59,13 +58,31 @@ jobs:
       shell: bash
       run: ${GITHUB_WORKSPACE}/Tools/Build/linux/dev_release.sh
 
-    - name: 🏷️ Update the github release
+    - name: 💾 Stores the built artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: build-nightly-artifact
+        path: Release/
+
+  tag:
+    name: ⬆️ Upload the artifacts
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+    - name: 💾 Download all artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: build-nightly-artifact
+        path: Release/
+
+    - name: 🏷️ Update nightly release tag
       uses: andelf/nightly-release@main
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: nightly
         name: '🌙 Nightly build (${{ steps.info.outputs.tag }})'
+        tag_name: nightly
         prerelease: true
         body: |
           🚨 This is the nightly build of Carbon.
