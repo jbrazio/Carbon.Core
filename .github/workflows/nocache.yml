@@ -21,8 +21,19 @@ jobs:
     name: 🦺 Clear rust managed data and tools 
     runs-on: ubuntu-latest
       
-    steps:    
-    - uses: actions/github-script@v6
+    steps:
+    - name: 📦 Cache rust managed data and tools
+      uses: actions/cache@v3
+      with:
+        path: |
+          Rust/RustDedicated_Data
+          Tools/NStrip/NStrip/bin
+          Tools/DepotDownloader/DepotDownloader/bin
+        key: cache-rust-managed
+
+    - if: steps.cache-rust-managed.outputs.cache-hit == 'true'
+      name: 🧹 Clear cached rust managed data and tools
+      uses: actions/github-script@v6
       with:
         script: |
           await github.rest.actions.deleteActionsCacheByKey({
