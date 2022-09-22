@@ -41,16 +41,16 @@ jobs:
         dotnet-version: 6.0.x
 
     - name: 📦 Cache rust managed data and tools
-        id: cache-stuff
-        uses: actions/cache@v3
-        with:
-          path: |
-            Rust/RustDedicated_Data
-            Tools/DepotDownloader/DepotDownloader/bin
-            Tools/DepotDownloader/NStrip/bin
-          key: stuff
+      id: cache-stuff
+      uses: actions/cache@v3
+      with:
+        path: |
+          Rust/RustDedicated_Data
+          Tools/DepotDownloader/DepotDownloader/bin
+          Tools/DepotDownloader/NStrip/bin
+        key: stuff
 
-    - steps.cache-stuff.outputs.cache-hit != 'true'
+    - if: steps.cache-stuff.outputs.cache-hit != 'true'
       name: ✔️ Prepare the build environment
       shell: bash
       run: ${GITHUB_WORKSPACE}/Tools/Build/linux/dev_init.sh
