@@ -104,11 +104,25 @@ jobs:
         with:
           ref: beta
 
-      - name: Reset branch
+      - name: 🧹 Reset branch
         run: |
           git fetch origin alpha:alpha
           git reset --hard alpha
-      - name: Create Pull Request
+
+      - name: 📦 Create pull request
         uses: peter-evans/create-pull-request@v4
+        id: cpr
         with:
           branch: beta-promotion
+          labels: automation
+          delete-branch: true
+          commit-message: |
+            🤖 ci(auto): automated sync from alpha
+
+      - name: Enable Pull Request Automerge
+        if: steps.cpr.outputs.pull-request-operation == 'created'
+        uses: peter-evans/enable-pull-request-automerge@v2
+        with:
+          token: ${{ secrets.PAT }}
+          pull-request-number: ${{ steps.cpr.outputs.pull-request-number }}
+          merge-method: squash
