@@ -13,7 +13,7 @@ namespace Carbon.Patch
 		private static Dictionary<string, string> windowsList = new Dictionary<string, string>
 		{
 			// tools
-			{ "%BASE%/Tools/UnityDoorStop/winhttp.dll", "winhttp.dll" },
+			{ "%BASE%/Tools/UnityDoorstop/winhttp.dll", "winhttp.dll" },
 			{ "%BASE%/Tools/Helpers/doorstop_config.ini", "doorstop_config.ini" },
 			{ "%BASE%/Tools/NStrip/NStrip/bin/Release/net452/NStrip.exe", "carbon/tools/NStrip.exe" },
 			
