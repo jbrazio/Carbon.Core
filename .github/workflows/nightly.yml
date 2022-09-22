@@ -40,16 +40,16 @@ jobs:
         dotnet-version: 6.0.x
 
     - name: 📦 Cache rust managed data and tools
-      id: cache-stuff
+      id: cache-rust-managed
       uses: actions/cache@v3
       with:
         path: |
           Rust/RustDedicated_Data
           Tools/NStrip/NStrip/bin
           Tools/DepotDownloader/DepotDownloader/bin
-        key: stuff
+        key: cache-rust-managed
 
-    - if: steps.cache-stuff.outputs.cache-hit != 'true'
+    - if: steps.cache-rust-managed.outputs.cache-hit != 'true'
       name: ✔️ Prepare the build environment
       shell: bash
       run: ${GITHUB_WORKSPACE}/Tools/Build/linux/dev_init.sh
@@ -61,7 +61,7 @@ jobs:
     - name: 💾 Stores the built artifacts
       uses: actions/upload-artifact@v3
       with:
-        name: build-nightly-artifact
+        name: artifact-build-nightly
         path: Release/
 
   tag:
@@ -73,7 +73,7 @@ jobs:
     - name: 💾 Download all artifacts
       uses: actions/download-artifact@v3
       with:
-        name: build-nightly-artifact
+        name: artifact-build-nightly
         path: Release/
 
     - name: 🏷️ Update nightly release tag
