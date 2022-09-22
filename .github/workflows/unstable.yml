@@ -96,25 +96,15 @@ jobs:
   staging:
     name: 🔃 Update beta
     runs-on: ubuntu-latest
-    needs: tag
+    needs: build
 
     steps:
-      - name: 🔗 Checkout source code from github
-        uses: actions/checkout@v3
-        with:
-          ref: beta
-
-      - name: 🧹 Reset branch
-        run: |
-          git fetch origin alpha:alpha
-          git reset --hard alpha
-
-      - name: 📦 Create pull request
-        uses: peter-evans/create-pull-request@v4
-        id: cpr
-        with:
-          branch: beta-promotion
-          labels: automation
-          delete-branch: true
-          commit-message: |
-            🤖 ci(auto): automated sync from alpha
+    - name: ⤵️ Merge alpha to beta (staging)
+      uses: devmasx/merge-branch@master
+      with:
+        type: now
+        from_branch: alpha
+        target_branch: beta
+        github_token: ${{ github.token }}
+        message: |
+          ci(auto): 🤖 Merge branch 'alpha' into 'beta'
