@@ -1,3 +1,10 @@
+# 
+#   ______ _______ ______ ______ _______ _______ 
+#  |      |   _   |   __ \   __ \       |    |  |
+#  |   ---|       |      <   __ <   -   |       |
+#  |______|___|___|___|__|______/_______|__|____|
+#                         discord.gg/eXPcNKK4yd
+# 
 name: 🌙 Nightly build
 
 on:
@@ -12,8 +19,9 @@ on:
 jobs:
   nightly:
     name: 🌙 Update the nightly release tag
+  
     runs-on: ubuntu-latest
-    
+      
     steps:    
     - name: 🔗 Checkout source code from github
       uses: actions/checkout@v3
@@ -32,11 +40,24 @@ jobs:
       with:
         dotnet-version: 6.0.x
 
-    - name: 🐧 Execute the build process on Linux
+    - name: 📦 Cache rust managed data and tools
+        id: cache-stuff
+        uses: actions/cache@v3
+        with:
+          path: |
+            Rust/RustDedicated_Data
+            Tools/DepotDownloader/DepotDownloader/bin
+            Tools/DepotDownloader/NStrip/bin
+          key: stuff
+
+    - steps.cache-stuff.outputs.cache-hit != 'true'
+      name: ✔️ Prepare the build environment
       shell: bash
-      run: |
-        ${GITHUB_WORKSPACE}/Tools/Build/linux/dev_init.sh
-        ${GITHUB_WORKSPACE}/Tools/Build/linux/dev_release.sh
+      run: ${GITHUB_WORKSPACE}/Tools/Build/linux/dev_init.sh
+
+    - name: 🐧 Built the application
+      shell: bash
+      run: ${GITHUB_WORKSPACE}/Tools/Build/linux/dev_release.sh
 
     - name: 🏷️ Update the github release
       uses: andelf/nightly-release@main
@@ -53,7 +74,7 @@ jobs:
           
           📅 Built at ${{ steps.info.outputs.date }} from commit ${{ steps.info.outputs.ref }}.
         files: |
-          Release/Carbon.Patch.zip
-          Release/Carbon.Patch-Unix.zip
           Release/Carbon.dll
+          Release/Carbon.Patch.zip
           Release/Carbon-Unix.dll
+          Release/Carbon.Patch-Unix.zip
