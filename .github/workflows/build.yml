@@ -63,5 +63,5 @@ jobs:
     - name: ⬆️ Upload the artifacts
       uses: actions/upload-artifact@v3
       with:
-        name: artifact-build-linux-${{ github.run_id }}
+        name: artifact-build-windows-${{ github.run_id }}
         path: Release
