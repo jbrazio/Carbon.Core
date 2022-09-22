@@ -17,3 +17,4 @@ jobs:
           target_branch: beta
           github_token: ${{ github.token }}
           label_name: staging
+          message: ⚗️ Merge 'alpha' to 'beta' (staging)
