@@ -15,3 +15,4 @@ A concept that's becoming reality. **Carbon** is a platform in the form of a DLL
 * Familiar folder and plugin-making structure, with the intention to have the system run almost any kind of Oxide plugin
 * Permissions system
 * Light Hook system
+
