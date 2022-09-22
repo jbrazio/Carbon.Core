@@ -10,15 +10,18 @@ name: 🌙 Nightly build
 on:
   # allow manual action trigger
   workflow_dispatch:
-  
+
+  # technically this is more a "morningly" build
+  # but we do work late.. :-)  
   schedule:
     - cron: '0 7 * * *'
-    # technically this is more a "morningly" build
-    # but we do work late.. :-)
+
+env:
+  configuration: Debug
 
 jobs:
   build:
-    name: 🦺 Build the artifacts 
+    name: 🦺 Build
     runs-on: ubuntu-latest
       
     steps:    
@@ -27,7 +30,7 @@ jobs:
       with:
         ref: alpha
         
-    - name: 📅 Gather information
+    - name: 📅 Prepare the environment
       id: info
       run: |
         echo "::set-output name=date::$(date +'%Y-%m-%d %H:%M:%S')"
@@ -39,24 +42,13 @@ jobs:
       with:
         dotnet-version: 6.0.x
 
-    - name: 📦 Cache rust managed data and tools
-      id: cache-rust-managed
-      uses: actions/cache@v3
-      with:
-        path: |
-          Rust/RustDedicated_Data
-          Tools/NStrip/NStrip/bin
-          Tools/DepotDownloader/DepotDownloader/bin
-        key: cache-rust-managed
-
-    - if: steps.cache-rust-managed.outputs.cache-hit != 'true'
-      name: ✔️ Prepare the build environment
+    - name: ✔️ Prepare the build environment
       shell: bash
       run: ${GITHUB_WORKSPACE}/Tools/Build/linux/dev_init.sh
 
     - name: 🐧 Built the application
       shell: bash
-      run: ${GITHUB_WORKSPACE}/Tools/Build/linux/dev_release.sh
+      run: ${GITHUB_WORKSPACE}/Tools/Build/linux/dev_release.sh ${configuration}
 
     - name: 💾 Stores the built artifacts
       uses: actions/upload-artifact@v3
@@ -65,7 +57,7 @@ jobs:
         path: Release/
 
   tag:
-    name: ⬆️ Upload the artifacts
+    name: ⬆️ Upload
     runs-on: ubuntu-latest
     needs: build
 
