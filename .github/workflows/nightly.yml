@@ -50,25 +50,25 @@ jobs:
       shell: bash
       run: ${GITHUB_WORKSPACE}/Tools/Build/linux/dev_release.sh ${configuration}
 
-    - name: 💾 Stores the built artifacts
+    - name: ⬆️ Upload the artifacts
       uses: actions/upload-artifact@v3
       with:
         name: artifact-build-nightly
         path: Release/
 
   tag:
-    name: ⬆️ Upload
+    name: 💾 Release
     runs-on: ubuntu-latest
     needs: build
 
     steps:
-    - name: 💾 Download all artifacts
+    - name: ⬇️ Download artifacts
       uses: actions/download-artifact@v3
       with:
         name: artifact-build-nightly
         path: Release/
 
-    - name: 🏷️ Update nightly release tag
+    - name: 🏷️ Update release tag
       uses: andelf/nightly-release@main
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
