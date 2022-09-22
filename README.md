@@ -1,3 +1,5 @@
+[![🌙 Nightly build](https://github.com/jbrazio/Carbon.Core/actions/workflows/nightly.yml/badge.svg?branch=alpha)](https://github.com/jbrazio/Carbon.Core/actions/workflows/nightly.yml)
+
 ![Carbon](https://i.imgur.com/sG6X07A.jpg)
 
 A concept that's becoming reality. **Carbon** is a platform in the form of a DLL which gets added under your Rust server, in the *HarmonyMods* folder. 
