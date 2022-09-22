@@ -119,11 +119,10 @@ jobs:
           commit-message: |
             🤖 ci(auto): automated sync from alpha
 
-      - name: Enable Pull Request Automerge
-        if: steps.cpr.outputs.pull-request-operation == 'created'
-        uses: peter-evans/enable-pull-request-automerge@v2
+      - name: 🗜️ Auto squash pull request
+        uses: markelliot/autosquash@v1
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           pull-request-number: ${{ steps.cpr.outputs.pull-request-number }}
-          merge-method: squash
-
+          squash-commit-title: "${{ github.event.pull_request.title }} (#${{ github.event.pull_request.number }})"
+          squash-commit-message: "${{ github.event.pull_request.body }}"
