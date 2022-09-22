@@ -1,0 +1,33 @@
+# 
+#   ______ _______ ______ ______ _______ _______ 
+#  |      |   _   |   __ \   __ \       |    |  |
+#  |   ---|       |      <   __ <   -   |       |
+#  |______|___|___|___|__|______/_______|__|____|
+#                         discord.gg/eXPcNKK4yd
+# 
+name: 🪣 Invalidate cache(s)
+
+on:
+  # allow manual action trigger
+  workflow_dispatch:
+  
+  #schedule:
+    #- cron: '0 7 * * *'
+    # technically this is more a "morningly" build
+    # but we do work late.. :-)
+
+jobs:
+  managed-data:
+    name: 🦺 Clear rust managed data and tools 
+    runs-on: ubuntu-latest
+      
+    steps:    
+    - uses: actions/cache@v3
+      with:
+        path: |
+          Rust/RustDedicated_Data
+          Tools/NStrip/NStrip/bin
+          Tools/DepotDownloader/DepotDownloader/bin
+        key: cache-rust-managed-${{ github.run_id }}
+        restore-keys: |
+          cache-rust-managed
