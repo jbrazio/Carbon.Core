@@ -39,12 +39,15 @@ jobs:
     - name: 🔗 Checkout source code from github
       uses: actions/checkout@v3
 
+    - name: Git config
+      run: |
+        git config --local user.email "actions@github.com"
+        git config --local user.name "Github Actions"
+
     - name: ⤵️ Merge staging with production
-      uses: devmasx/merge-branch@master
-      with:
-        type: now
-        from_branch: ${{ inputs.source }}
-        target_branch: ${{ inputs.target }}
-        github_token: ${{ github.token }}
-        message: |
-          🤖 Merged ${{ inputs.target }} with ${{ inputs.source }}
+      run: |
+          git fetch --unshallow
+          git checkout staging
+          git pull
+          git merge --no-ff develop -m "🤖 Merged ${{ inputs.target }} with ${{ inputs.source }}"
+          git push
