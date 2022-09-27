@@ -20,6 +20,13 @@ on:
   schedule:
     - cron: '0 5 * * 0'
 
+  workflow_run:
+    workflows: [⤵️ merge-process-exec]
+    types:
+      - completed
+    branches:
+      - staging
+
 jobs:
   dump:
     runs-on: ubuntu-latest
@@ -121,7 +128,7 @@ jobs:
     name: 💾 Release
     needs: [ "build-linux", "build-windows" ]
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_call' }}
+    #if: ${{ github.event_name == 'schedule' }}
     # only release if trigered by the scheduler
 
     steps:
