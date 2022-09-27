@@ -45,6 +45,6 @@ jobs:
         type: now
         from_branch: ${{ inputs.source }}
         target_branch: ${{ inputs.target }}
-        github_token: ${{ github.PAT_PUBLIC_REPO }}
+        github_token: ${{ secrets.PAT_PUBLIC_REPO }}
         message: |
           🤖 Merged ${{ inputs.target }} with ${{ inputs.source }}
