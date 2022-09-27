@@ -12,10 +12,6 @@ on:
   push:
     branches:
       - staging
-    
-  pull_request:
-    branches:
-      - staging
 
   schedule:
     - cron: '0 5 * * 0'
@@ -126,7 +122,7 @@ jobs:
 
   release:
     name: 💾 Release
-    needs: [ "build-linux", "build-windows" ]
+    needs: [ "bootstrap", "build-linux", "build-windows" ]
     runs-on: ubuntu-latest
     #if: ${{ github.event_name == 'schedule' }}
     # only release if trigered by the scheduler
