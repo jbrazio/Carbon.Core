@@ -7,7 +7,6 @@
   <a href="https://github.com/Carbon-Modding/Carbon.Core/actions/workflows/production-build.yml"><img src="https://github.com/Carbon-Modding/Carbon.Core/actions/workflows/production-build.yml/badge.svg?branch=production"></a>
 </p>
 
-
 A concept that's becoming reality.
 **Carbon** is a platform in the form of a DLL which gets added under your Rust server, in the *HarmonyMods* folder. 
 
